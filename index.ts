@@ -28,9 +28,7 @@ class NextNamedRoutes<RouteName> {
   activeRoute(): Route<RouteName> {
     const rn = this.findRouteByPath(window.location.pathname)
     if (!rn) {
-      throw new Error(
-        `No route associated with this pathname: ${window.location.pathname}`,
-      )
+      throw new Error(`No route associated with this pathname: ${window.location.pathname}`)
     }
     return rn
   }
@@ -48,10 +46,7 @@ class NextNamedRoutes<RouteName> {
    * @param name The route to render.
    * @param params The parameters that should be injected into the route
    */
-  pathnameForParams(
-    name: RouteName,
-    params: { [key: string]: string },
-  ): string {
+  pathnameForParams(name: RouteName, params: { [key: string]: string }): string {
     const route = this.findRouteByName(name)
     if (!route) {
       throw new Error(`Could not find route: ${name}`)
@@ -60,19 +55,14 @@ class NextNamedRoutes<RouteName> {
     return NextNamedRoutes.injectParamsIntoPath(route.path, params)
   }
 
-  static injectParamsIntoPath(
-    nextStylePath: string,
-    params: { [key: string]: string },
-  ): string {
+  static injectParamsIntoPath(nextStylePath: string, params: { [key: string]: string }): string {
     const identifiers = NextNamedRoutes.identifiersInPath(nextStylePath)
     const pathname = identifiers.reduce((prev, curr) => {
       return prev.replace(`[${curr}]`, params[curr])
     }, nextStylePath)
 
     // Add any search params to the route
-    const searchParams = Object.keys(params).filter(
-      (key) => !identifiers.includes(key),
-    )
+    const searchParams = Object.keys(params).filter((key) => !identifiers.includes(key))
     let searchParamString = ''
     if (searchParams.length > 0) {
       searchParams.forEach((key) => {
@@ -82,8 +72,7 @@ class NextNamedRoutes<RouteName> {
           } else if (searchParamString.length > 1) {
             searchParamString += '&'
           }
-          searchParamString +=
-            encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+          searchParamString += encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
         }
       })
     }
@@ -100,8 +89,8 @@ class NextNamedRoutes<RouteName> {
       '^' +
         identifiers.reduce((prev, curr) => {
           return prev.replace(`[${curr}]`, '(?:([^/]+?))')
-        '$',
         }, nextStylePath) +
+        '$',
     )
   }
 
