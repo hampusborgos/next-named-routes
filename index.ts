@@ -9,8 +9,14 @@ type Route<RouteName> = {
 }
 
 class NextNamedRoutes<RouteName> {
+  /**
+   * All registered routes.
+   */
   routes: Route<RouteName>[] = []
 
+  /**
+   * Registers a named route. The path should be the filesystem path corresponding to the route.
+   */
   add(name: RouteName, path: string): NextNamedRoutes<RouteName> {
     if (this.findRouteByName(name)) {
       throw new Error(`Duplicate route added: ${name}`)
@@ -25,6 +31,10 @@ class NextNamedRoutes<RouteName> {
     return this
   }
 
+  /**
+   * Returns the currently active route (based on window.location)
+   * Uses regex matching internally
+   */
   activeRoute(): Route<RouteName> {
     const rn = this.findRouteByPath(window.location.pathname)
     if (!rn) {
@@ -33,10 +43,19 @@ class NextNamedRoutes<RouteName> {
     return rn
   }
 
+  /**
+   * Returns metadata about a route given its name.
+   * @param name The name of the route you want to find.
+   */
   findRouteByName(name: RouteName): Route<RouteName> | undefined {
     return this.routes.find((route) => route.name === name)
   }
 
+  /**
+   * Returns metadata about a route, based on a browser path.
+   * Uses regex matching internally.
+   * @param path The path to search for.
+   */
   findRouteByPath(path: string): Route<RouteName> | undefined {
     return this.routes.find((route) => route.regex.test(path))
   }
