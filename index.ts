@@ -1,7 +1,12 @@
 // TODO: Support match [...rest] style paths (we don't use them currently)
 const nextStylePathComponent = /\[[^/]+\]/g
 
-type Route<RouteName> = { name: RouteName; identifiers: string[]; path: string; regex: RegExp }
+type Route<RouteName> = {
+  name: RouteName
+  identifiers: string[]
+  path: string
+  regex: RegExp
+}
 
 class NextNamedRoutes<RouteName> {
   routes: Route<RouteName>[] = []
@@ -23,17 +28,19 @@ class NextNamedRoutes<RouteName> {
   activeRoute(): Route<RouteName> {
     const rn = this.findRouteByPath(window.location.pathname)
     if (!rn) {
-      throw new Error(`No route associated with this pathname: ${window.location.pathname}`)
+      throw new Error(
+        `No route associated with this pathname: ${window.location.pathname}`,
+      )
     }
     return rn
   }
 
   findRouteByName(name: RouteName): Route<RouteName> | undefined {
-    return this.routes.find(route => route.name === name)
+    return this.routes.find((route) => route.name === name)
   }
 
   findRouteByPath(path: string): Route<RouteName> | undefined {
-    return this.routes.find(route => route.regex.test(path))
+    return this.routes.find((route) => route.regex.test(path))
   }
 
   /**
@@ -41,7 +48,10 @@ class NextNamedRoutes<RouteName> {
    * @param name The route to render.
    * @param params The parameters that should be injected into the route
    */
-  pathnameForParams(name: RouteName, params: { [key: string]: string }): string {
+  pathnameForParams(
+    name: RouteName,
+    params: { [key: string]: string },
+  ): string {
     const route = this.findRouteByName(name)
     if (!route) {
       throw new Error(`Could not find route: ${name}`)
@@ -50,24 +60,30 @@ class NextNamedRoutes<RouteName> {
     return NextNamedRoutes.injectParamsIntoPath(route.path, params)
   }
 
-  static injectParamsIntoPath(nextStylePath: string, params: { [key: string]: string }): string {
+  static injectParamsIntoPath(
+    nextStylePath: string,
+    params: { [key: string]: string },
+  ): string {
     const identifiers = NextNamedRoutes.identifiersInPath(nextStylePath)
     const pathname = identifiers.reduce((prev, curr) => {
       return prev.replace(`[${curr}]`, params[curr])
     }, nextStylePath)
 
     // Add any search params to the route
-    const searchParams = Object.keys(params).filter(key => !identifiers.includes(key))
+    const searchParams = Object.keys(params).filter(
+      (key) => !identifiers.includes(key),
+    )
     let searchParamString = ''
     if (searchParams.length > 0) {
-      searchParams.forEach(key => {
+      searchParams.forEach((key) => {
         if (params[key]) {
           if (searchParamString.length === 0) {
             searchParamString = '?'
           } else if (searchParamString.length > 1) {
             searchParamString += '&'
           }
-          searchParamString += encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+          searchParamString +=
+            encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
         }
       })
     }
@@ -84,8 +100,8 @@ class NextNamedRoutes<RouteName> {
       '^' +
         identifiers.reduce((prev, curr) => {
           return prev.replace(`[${curr}]`, '(?:([^/]+?))')
-        }, nextStylePath) +
         '$',
+        }, nextStylePath) +
     )
   }
 
@@ -102,7 +118,7 @@ class NextNamedRoutes<RouteName> {
 
     // Check for duplicates before returning, better be safe than sorry
     const seen: { [key: string]: boolean } = {}
-    return matches.map(m => {
+    return matches.map((m) => {
       const id = m.substr(1, m.length - 2)
       if (seen[id]) {
         throw new Error(`Duplicate identifier in path ${nextStylePath}: ${id}`)

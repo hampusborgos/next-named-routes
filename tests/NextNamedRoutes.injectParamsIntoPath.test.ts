@@ -5,14 +5,19 @@ describe('NextNamedRoutes.injectParamsIntoPath', () => {
     expect(NextNamedRoutes.injectParamsIntoPath('/hello', {})).toEqual('/hello')
 
     expect(
-      NextNamedRoutes.injectParamsIntoPath('/[organizationSlug]', { organizationSlug: 'test-as' }),
+      NextNamedRoutes.injectParamsIntoPath('/[organizationSlug]', {
+        organizationSlug: 'test-as',
+      }),
     ).toEqual('/test-as')
 
     expect(
-      NextNamedRoutes.injectParamsIntoPath('/[organizationSlug]/tema/[topicSlug]', {
-        organizationSlug: 'test-as',
-        topicSlug: 'amazing-Journey',
-      }),
+      NextNamedRoutes.injectParamsIntoPath(
+        '/[organizationSlug]/tema/[topicSlug]',
+        {
+          organizationSlug: 'test-as',
+          topicSlug: 'amazing-Journey',
+        },
+      ),
     ).toEqual('/test-as/tema/amazing-Journey')
   })
 })
