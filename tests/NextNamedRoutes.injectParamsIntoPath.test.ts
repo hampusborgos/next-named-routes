@@ -1,4 +1,4 @@
-import NextNamedRoutes from '.'
+import NextNamedRoutes from '..'
 
 describe('NextNamedRoutes.injectParamsIntoPath', () => {
   it('inject named parameters', () => {
@@ -11,13 +11,10 @@ describe('NextNamedRoutes.injectParamsIntoPath', () => {
     ).toEqual('/test-as')
 
     expect(
-      NextNamedRoutes.injectParamsIntoPath(
-        '/[organizationSlug]/tema/[topicSlug]',
-        {
-          organizationSlug: 'test-as',
-          topicSlug: 'amazing-Journey',
-        },
-      ),
+      NextNamedRoutes.injectParamsIntoPath('/[organizationSlug]/tema/[topicSlug]', {
+        organizationSlug: 'test-as',
+        topicSlug: 'amazing-Journey',
+      }),
     ).toEqual('/test-as/tema/amazing-Journey')
   })
 })

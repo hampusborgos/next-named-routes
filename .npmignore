@@ -1,0 +1,18 @@
+.git/**/*
+.env
+.env.*
+.idea/*
+*/.idea/
+node_modules
+.DS_Store
+
+# Fuck these files
+.vscode/*
+jest.config.js
+.prettierrc
+
+# Include only .js and .d.ts files, not tests
+**/*.ts
+**/*.test.js
+!**/*.d.ts
+**/*.test.d.ts

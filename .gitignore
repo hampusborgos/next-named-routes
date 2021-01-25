@@ -106,3 +106,7 @@ dist
 # OS files
 .DS_Store
 Thumbs.db
+
+# Ignore compiled output
+**/*.js
+**/*.d.ts
