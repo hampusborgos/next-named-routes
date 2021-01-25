@@ -1,0 +1,29 @@
+{
+  "name": "next-named-routes",
+  "version": "0.1.0",
+  "description": "Put enum names on next routes, to make programatic handling of routes easier.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hjnilsson/next-named-routes.git"
+  },
+  "keywords": [
+    "nextjs",
+    "next",
+    "typescript",
+    "router",
+    "route"
+  ],
+  "author": "Hampus Borgos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hjnilsson/next-named-routes/issues"
+  },
+  "homepage": "https://github.com/hjnilsson/next-named-routes#readme"
+}
